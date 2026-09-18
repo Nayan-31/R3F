@@ -1,5 +1,5 @@
 import { OrbitControls } from "@react-three/drei";
-import { Canvas, useFrame } from "@react-three/fiber";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useRef, useState } from "react";
 
 function Cube({ rotation, position, color }) {
@@ -29,12 +29,23 @@ function Cube({ rotation, position, color }) {
     </mesh>
   );
 }
+
+function CameraController(){
+  const {camera , pointer} = useThree()
+  useFrame(()=>{
+  camera.position.x = pointer.x * 0.5
+  camera.position.y = pointer.y * 0.5
+  })
+  return null
+}
 const App = () => {
   return (
     <Canvas camera={{ position: [0, 0, 5] }}>
       <ambientLight intensity={0.5} />
+
       <directionalLight position={[2, 2, 5]} intensity={2} />
-      <group position={[0, 1, 0]}>
+
+      <group position={[0, 0, 1]}>
         <Cube
           rotation={[0, Math.PI / 4, 0]}
           position={[-2, 0, 0]}
@@ -43,8 +54,8 @@ const App = () => {
         <Cube rotation={[0, Math.PI / 4, 0]} position={[0, 0, 0]} color="orange" />
         <Cube rotation={[0, Math.PI / 4, 0]} position={[2, 0, 0]} color="blue" />
       </group>
-
-      <OrbitControls />
+      <CameraController/>
+      {/* <OrbitControls /> */}
     </Canvas>
   );
 };
