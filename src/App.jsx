@@ -1,8 +1,13 @@
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, useTexture } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useRef, useState } from "react";
+import matcap1 from "./images/matcap1.png";
+import matcap2 from "./images/matcap2.jpg";
+import matcap3 from "./images/matcap3.jpg";
+function Cube({ rotation, position , matcapImage }) {
 
-function Cube({ rotation, position, color }) {
+  const matcap = useTexture(matcapImage)
+
   const cubeRef = useRef()
   const[hovered , setHovered] = useState(false)
   const[clicked , setClicked] = useState(false)
@@ -25,37 +30,35 @@ function Cube({ rotation, position, color }) {
       scale={clicked ? 1.5 : 1}
     >
       <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={hovered ? "hotpink" : color} />
+      <meshMatcapMaterial matcap={matcap}/>
     </mesh>
   );
 }
 
-function CameraController(){
-  const {camera , pointer} = useThree()
-  useFrame(()=>{
-  camera.position.x = pointer.x * 0.5
-  camera.position.y = pointer.y * 0.5
-  })
-  return null
-}
 const App = () => {
   return (
     <Canvas camera={{ position: [0, 0, 5] }}>
-      <ambientLight intensity={0.5} />
-
-      <directionalLight position={[2, 2, 5]} intensity={2} />
-
       <group position={[0, 0, 1]}>
         <Cube
+          matcapImage={matcap1}
           rotation={[0, Math.PI / 4, 0]}
           position={[-2, 0, 0]}
           color={"red"}
         />
-        <Cube rotation={[0, Math.PI / 4, 0]} position={[0, 0, 0]} color="orange" />
-        <Cube rotation={[0, Math.PI / 4, 0]} position={[2, 0, 0]} color="blue" />
+        <Cube
+           matcapImage={matcap3}
+           rotation={[0, Math.PI / 4, 0]} 
+           position={[0, 0, 0]} 
+           color="orange" 
+        />
+        <Cube 
+        matcapImage={matcap2}
+        rotation={[0, Math.PI / 4, 0]} 
+        position={[2, 0, 0]} 
+        color="blue" 
+        />
       </group>
-      <CameraController/>
-      {/* <OrbitControls /> */}
+     <OrbitControls/>
     </Canvas>
   );
 };
