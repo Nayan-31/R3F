@@ -1,12 +1,14 @@
 import { OrbitControls } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 function Cube({ rotation, position, color }) {
   const cubeRef = useRef()
-  
+  const[hovered , setHovered] = useState(false)
+  const[clicked , setClicked] = useState(false)
+
   useFrame((state , delta)=>{
-    cubeRef.current.rotation.y += 1 * delta //delta matlab last frame aur current frame ke beech kitna time laga. yaha 2 speed hai spped control kar sakte hai
+    cubeRef.current.rotation.y += 1 * delta //delta matlab last frame aur current frame ke beech kitna time laga. yaha 1 speed hai spped control kar sakte hai
     cubeRef.current.rotation.x += delta
   })
   return (
@@ -14,9 +16,16 @@ function Cube({ rotation, position, color }) {
       ref={cubeRef}
       rotation={rotation} //isse har cube thoda tilted lagega
       position={position}
+
+      onPointerOver={()=>setHovered(true)}
+      onPointerOut={()=>setHovered(false)}
+
+      onClick={()=>setClicked(!clicked)}
+
+      scale={clicked ? 1.5 : 1}
     >
       <boxGeometry args={[1, 1, 1]} />
-      <meshStandardMaterial color={color} />
+      <meshStandardMaterial color={hovered ? "hotpink" : color} />
     </mesh>
   );
 }
