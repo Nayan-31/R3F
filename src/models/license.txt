@@ -1,0 +1,11 @@
+Model Information:
+* title:	Gojo
+* source:	https://sketchfab.com/3d-models/gojo-b66b15ae463f45a3b7d30252d174b4bd
+* author:	Paleo_isle (https://sketchfab.com/Paleo_isle)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Gojo" (https://sketchfab.com/3d-models/gojo-b66b15ae463f45a3b7d30252d174b4bd) by Paleo_isle (https://sketchfab.com/Paleo_isle) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -1,66 +1,24 @@
-import { OrbitControls, useTexture } from "@react-three/drei";
-import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useRef, useState } from "react";
-import matcap1 from "./images/matcap1.png";
-import matcap2 from "./images/matcap2.jpg";
-import matcap3 from "./images/matcap3.jpg";
-function Cube({ rotation, position , matcapImage }) {
+import { OrbitControls } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import { Suspense } from "react";
+import Character from "./components/Character";
+import SpaceDust from "./components/SpaceDust";
+import SpiralStreams from "./components/SpiralStreams";
 
-  const matcap = useTexture(matcapImage)
-
-  const cubeRef = useRef()
-  const[hovered , setHovered] = useState(false)
-  const[clicked , setClicked] = useState(false)
-
-  useFrame((state , delta)=>{
-    cubeRef.current.rotation.y += 1 * delta //delta matlab last frame aur current frame ke beech kitna time laga. yaha 1 speed hai spped control kar sakte hai
-    cubeRef.current.rotation.x += delta
-  })
+function App() {
   return (
-    <mesh
-      ref={cubeRef}
-      rotation={rotation} //isse har cube thoda tilted lagega
-      position={position}
-
-      onPointerOver={()=>setHovered(true)}
-      onPointerOut={()=>setHovered(false)}
-
-      onClick={()=>setClicked(!clicked)}
-
-      scale={clicked ? 1.5 : 1}
-    >
-      <boxGeometry args={[1, 1, 1]} />
-      <meshMatcapMaterial matcap={matcap}/>
-    </mesh>
-  );
-}
-
-const App = () => {
-  return (
-    <Canvas camera={{ position: [0, 0, 5] }}>
-      <group position={[0, 0, 1]}>
-        <Cube
-          matcapImage={matcap1}
-          rotation={[0, Math.PI / 4, 0]}
-          position={[-2, 0, 0]}
-          color={"red"}
-        />
-        <Cube
-           matcapImage={matcap3}
-           rotation={[0, Math.PI / 4, 0]} 
-           position={[0, 0, 0]} 
-           color="orange" 
-        />
-        <Cube 
-        matcapImage={matcap2}
-        rotation={[0, Math.PI / 4, 0]} 
-        position={[2, 0, 0]} 
-        color="blue" 
-        />
-      </group>
-     <OrbitControls/>
+    <Canvas camera={{ position: [0, 2, 19], fov: 50 }} dpr={[1, 1.5]}>
+      <color attach="background" args={["#080c15"]} />
+      <ambientLight intensity={1.3} />
+      <directionalLight position={[3, 6, 5]} intensity={2} />
+      <SpaceDust />
+      <Suspense fallback={null}>
+        <Character />
+        <SpiralStreams />
+      </Suspense>
+      <OrbitControls target={[0, 1.5, 0]} minDistance={8} maxDistance={30} />
     </Canvas>
   );
-};
+}
 
 export default App;
